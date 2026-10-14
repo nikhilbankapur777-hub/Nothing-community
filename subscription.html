@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Activate Proton</title>
+<style>
+  :root{
+    --bg:#000;
+    --fg:#fff;
+    --muted:#71767b;
+    --line:#2f3336;
+    --card:#0a0a0a;
+    --card-2:#16181c;
+    --radius:20px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{background:var(--bg);color:var(--fg)}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding:calc(env(safe-area-inset-top) + 8px) 0 calc(env(safe-area-inset-bottom) + 120px);
+  }
+  .wrap{max-width:520px;margin:0 auto;padding:0 20px}
+
+  /* top bar */
+  .top{display:flex;align-items:center;justify-content:space-between;height:52px}
+  .top .brand{display:flex;align-items:center}
+  .top .brand img{height:24px;width:auto;max-width:150px;object-fit:contain;display:block}
+  .region{
+    display:flex;gap:2px;padding:3px;
+    border:1px solid var(--line);border-radius:999px;background:var(--card);
+  }
+  .region button{
+    border:0;background:transparent;color:var(--muted);
+    font:inherit;font-size:12px;font-weight:700;padding:6px 13px;border-radius:999px;cursor:pointer;
+    transition:background .2s,color .2s;
+  }
+  .region button.on{background:#fff;color:#000}
+
+  /* hero */
+  .hero{padding:36px 0 8px;text-align:center}
+  .logo-ring{
+    width:96px;height:96px;margin:0 auto 26px;border-radius:50%;
+    display:grid;place-items:center;
+    background:radial-gradient(circle at 50% 35%,#1b1b1b 0%,#000 70%);
+    border:1px solid var(--line);
+    box-shadow:0 0 0 8px rgba(255,255,255,.03),0 0 60px rgba(255,255,255,.08);
+  }
+  .logo-ring img{width:52px;height:52px;display:block}
+  h1{font-size:34px;line-height:1.08;font-weight:800;letter-spacing:-1.2px}
+  .sub{margin:14px auto 0;max-width:380px;color:var(--muted);font-size:16px;line-height:1.5}
+
+  /* community strip */
+
+  /* features */
+  .section-title{margin:38px 0 14px;font-size:13px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted)}
+  .features{display:grid;gap:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .feature{display:flex;gap:14px;padding:18px 16px;background:var(--card)}
+  .feature + .feature{border-top:1px solid var(--line)}
+  .ico{
+    flex:none;width:38px;height:38px;border-radius:50%;
+    border:1px solid var(--line);display:grid;place-items:center;background:#000;
+  }
+  .ico svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .feature h3{font-size:16px;font-weight:700;letter-spacing:-.2px}
+  .feature p{margin-top:3px;font-size:14px;line-height:1.45;color:var(--muted)}
+
+  /* plans */
+  .toggle{
+    display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;
+    border:1px solid var(--line);border-radius:999px;background:var(--card);
+  }
+  .toggle button{
+    border:0;background:transparent;color:var(--muted);
+    font:inherit;font-weight:700;font-size:14px;padding:11px 0;border-radius:999px;cursor:pointer;
+    transition:background .2s,color .2s;
+  }
+  .toggle button.on{background:#fff;color:#000}
+  .toggle small{font-weight:700;font-size:11px;margin-left:6px;opacity:.7}
+
+  .plan{
+    margin-top:14px;padding:22px 20px;border-radius:var(--radius);
+    border:1px solid #fff;background:var(--card);
+  }
+  .plan .name{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700}
+  .plan .name img{width:18px;height:18px;display:block}
+  .price{margin-top:10px;display:flex;align-items:baseline;gap:6px}
+  .price strong{font-size:44px;font-weight:800;letter-spacing:-2px;line-height:1}
+  .price span{color:var(--muted);font-size:15px}
+  .note{margin-top:8px;font-size:13px;color:var(--muted)}
+  .checks{margin-top:18px;list-style:none;display:grid;gap:11px}
+  .checks li{display:flex;gap:10px;font-size:14.5px;line-height:1.35}
+  .checks svg{flex:none;width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}
+
+  .free{margin-top:12px;padding:16px 20px;border-radius:var(--radius);border:1px solid var(--line);color:var(--muted);font-size:14px;line-height:1.45}
+  .free b{color:#fff}
+
+  .fine{margin-top:22px;text-align:center;font-size:12px;line-height:1.5;color:var(--muted)}
+
+  /* sticky CTA */
+  .cta-bar{
+    position:fixed;left:0;right:0;bottom:0;
+    padding:14px 20px calc(env(safe-area-inset-bottom) + 14px);
+    background:linear-gradient(to top,#000 65%,rgba(0,0,0,0));
+  }
+  .cta-bar .inner{max-width:520px;margin:0 auto}
+  .cta{
+    width:100%;border:0;border-radius:999px;background:#fff;color:#000;
+    font:inherit;font-weight:800;font-size:17px;letter-spacing:-.2px;padding:17px 0;cursor:pointer;
+    transition:transform .12s,opacity .2s;
+  }
+  .cta:active{transform:scale(.98);opacity:.9}
+  .restore{
+    display:block;margin:12px auto 0;background:none;border:0;color:var(--muted);
+    font:inherit;font-size:13px;font-weight:600;cursor:pointer;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="top">
+      <div class="brand">
+        <img src="Nothingcommunity.png" alt="Nothing Community">
+      </div>
+      <div class="region" id="region">
+        <button class="on" data-region="in">IN</button>
+        <button data-region="us">US</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="logo-ring"><img src="proton.svg" alt="Proton"></div>
+      <h1>Activate Proton</h1>
+      <p class="sub">Your AI for everything happening across the Nothing ecosystem. It reads the feed so you don't have to.</p>
+    </section>
+
+    <div class="section-title">What you get</div>
+    <div class="features">
+      <div class="feature">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+        <div>
+          <h3>Summarise any post</h3>
+          <p>Long threads and busy replies boiled down to what matters, in one tap.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></div>
+        <div>
+          <h3>Ask about the ecosystem</h3>
+          <p>Get answers on devices, updates, features and community discussions.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></div>
+        <div>
+          <h3>Stay on top of the feed</h3>
+          <p>A daily digest of what the community is talking about.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></div>
+        <div>
+          <h3>Private by design</h3>
+          <p>Your questions stay yours. Proton only works on what's already public in the community.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Your plan</div>
+
+    <div class="plan">
+      <div class="name"><img src="proton.svg" alt="">Proton Premium</div>
+      <div class="price"><strong id="price">₹39</strong><span id="per">/ month</span></div>
+      <div class="note">Billed monthly. Cancel anytime.</div>
+      <ul class="checks">
+        <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Unlimited post summaries</li>
+        <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Unlimited questions about the ecosystem</li>
+        <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Daily community digest</li>
+        <li><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Early access to new Proton features</li>
+      </ul>
+    </div>
+
+    <div class="free"><b>Free</b> includes a few summaries and questions every day. Activate Proton to remove the limits.</div>
+
+    <p class="fine">Subscription renews automatically until cancelled. Manage it anytime from settings.</p>
+  </div>
+
+  <div class="cta-bar">
+    <div class="inner">
+      <button class="cta" id="activate">Activate Proton</button>
+      <button class="restore" id="restore">Restore purchase</button>
+    </div>
+  </div>
+
+<script>
+  // Temporary IN/US toggle (to be removed later)
+  var prices = { in:"₹39", us:"$1.99" };
+  var current = "in";
+
+  document.querySelectorAll("#region button").forEach(function(b){
+    b.addEventListener("click", function(){
+      current = b.dataset.region;
+      document.querySelectorAll("#region button").forEach(function(x){ x.classList.toggle("on", x === b); });
+      document.getElementById("price").textContent = prices[current];
+    });
+  });
+
+  // Hooks for the app to wire up later.
+  function activateProton(region){ /* TODO: connect to billing */ }
+  function restorePurchase(){ /* TODO: connect to billing */ }
+
+  document.getElementById("activate").addEventListener("click", function(){ activateProton(current); });
+  document.getElementById("restore").addEventListener("click", restorePurchase);
+</script>
+</body>
+</html>
